@@ -1,5 +1,5 @@
 # IP-lookup
-PowerShell
+Bash
 
 whois search for multiple IP addresses and display org-name and description
 
