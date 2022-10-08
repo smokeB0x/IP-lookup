@@ -1,5 +1,5 @@
 # IP-lookup
-Bash
+
 
 Dependencies:
 whois (sudo apt install whois)
