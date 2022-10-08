@@ -1,20 +1,24 @@
 #!/bin/bash
 
-#This script takes a list of IP addresses in a text file called "ip.txt", does a whois search, and greps for org-name and description, then outputs this to a file with the following format:
-#IP address org-name Description
+#This script takes a list of IP addresses in a text file called "ip.txt", does a whois search, and greps for org-name, description, and country 
+#then outputs this to a file in csv format where pipe (|) is the delimiter
 
-touch whois.txt
-echo 'IP OrganisationName Description' > whois.txt
+IP="IP-Adresse"													#Define headlines variables
+OrgName="Organisasjonsnavn"											#Define headlines variables
+Descr="Beskrivelse"												#Define headlines variables
+Country="Land"													#Define headlines variables
 
-for ip in $(cat ip.txt); 
-	do whois $ip | echo "$ip $(grep -i 'org-name\|descr' | awk -F ':' '{print $2}' | xargs)"; done >> whois-temp.txt
-#do a whois lookup for org-name and descr for each IP in list - write to temp-file
+echo $IP\|$OrgName\|$Descr\|$Country > whois.csv								#Write headlines variables in csv-format
+
+File="ip.txt"													#Define input file
+dos2unix $File													#Converts txt file in windows format, to unix format
+Lines=$(cat $File)												#Open file and read lines
 
 
-
-cat whois-temp.txt | sort | uniq >> whois.txt
-#sort lines in ascending order and remove duplicates
-
-rm whois-temp.txt
-#removes temp file
-
+for ip in $Lines												#For each line in input file
+	do													#Do the following (Start of loop)
+		org=$(whois $ip | grep -i 'org-name\|orgname' | awk -F ':' '{print $2}' | xargs)		#Do a whois lookup, grep for org-name, and select the second value in the line, remove newlines. Define value as variable "org"
+		des=$(whois $ip | grep -i 'descr' | awk -F ':' '{print $2}' | xargs)				#Do a whois lookup, grep for descr, and select the second value in the line, remove newlines. Define value as variable "des"
+		country=$(whois $ip | grep -i 'country' | awk -F ':' '{print $2}' | xargs)			#Do a whois lookup, grep for country, and select the second value in the line, remove newlines. Define value as variable "country"
+		echo $ip\|$org\|$des\|$country >> whois.csv							#Write the variables ip, org, des, and country to a file in csv-format
+done														#End of loop
