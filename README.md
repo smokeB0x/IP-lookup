@@ -1,9 +1,13 @@
 # IP-lookup
 Bash
 
-whois search for multiple IP addresses and display org-name and description
+Dependencies:
+whois (sudo apt install whois)
+dos2unix (sudo apt install dos2unix)
 
-List with IP-addresses must be saved in a file namet "ip.txt" at the same location as the script
+Whois lookup for multiple IP addresses in a file.
+This script desplays the values Org-name, description, and country, but it can easily be edited to search for and display other values as well.
 
-The script will make a new file named "whois.txt" with the following format:
-IP-address org-name description
+List with IP-addresses must be saved in a file named "ip.txt" at the same location as the script
+
+The result is saved in a .csv file named whois.csv with pipe (|) as the delimiter.
