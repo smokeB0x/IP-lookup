@@ -2,7 +2,9 @@
 
 
 Dependencies:
+
 whois (sudo apt install whois)
+
 dos2unix (sudo apt install dos2unix)
 
 Whois lookup for multiple IP addresses in a file.
